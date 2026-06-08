@@ -1,4 +1,8 @@
-const CLAUDE_API_URL = '/api/chat'
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL ||
+  'https://kai-ai-friend.onrender.com'
+
+const CLAUDE_API_URL = `${API_BASE_URL}/api/chat`
 
 /**
  * Send a message to the backend and receive Kai's response.
