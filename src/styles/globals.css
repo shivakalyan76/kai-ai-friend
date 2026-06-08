@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+    background: #0A0C12;
+    color: #F0F2FF;
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgba(26, 30, 46, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .glass-hover {
+    transition: all 0.2s ease;
+  }
+
+  .glass-hover:hover {
+    background: rgba(34, 40, 64, 0.7);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #222840 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #222840;
+    border-radius: 2px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #fff 0%, #9B8FFB 50%, #4DD0B8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .btn-accent {
+    background: linear-gradient(135deg, #7C6EFA, #5B50D6);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(124, 110, 250, 0.4);
+  }
+
+  .btn-accent:active {
+    transform: translateY(0);
+  }
+
+  .message-kai {
+    background: #1A1E2E;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 18px 18px 18px 4px;
+  }
+
+  .message-user {
+    background: linear-gradient(135deg, #7C6EFA, #5B50D6);
+    border-radius: 18px 18px 4px 18px;
+  }
+}
+
+/* iOS safe area — prevents input from hiding behind home indicator */
+.chat-footer-safe {
+  padding-bottom: max(0.625rem, env(safe-area-inset-bottom));
+}
