@@ -24,6 +24,20 @@ export async function sendMessage({ messages, profile, memories }) {
   }
 }
 
+export async function patchProfile(patch) {
+  const res = await fetch(`${API_BASE_URL}/api/profile`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch),
+  })
+
+  if (!res.ok) {
+    throw new Error(`Profile update failed: ${res.status}`)
+  }
+
+  return await res.json()
+}
+
 async function callAnthropicDirect({ messages, profile, memories }) {
   const systemPrompt = buildSystemPrompt(profile, memories)
 

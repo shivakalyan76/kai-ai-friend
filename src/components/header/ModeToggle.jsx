@@ -1,6 +1,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { useAppStore } from '../../store/appStore.js'
+import { patchProfile } from '../../utils/api.js'
 
 export default function ModeToggle() {
   const profile = useAppStore((s) => s.profile)
@@ -10,8 +11,15 @@ export default function ModeToggle() {
 
   const isBest = profile.mode === 'bestfriend'
 
-  const toggle = () => {
-    updateProfile({ mode: isBest ? 'friend' : 'bestfriend' })
+  const toggle = async () => {
+    const newMode = isBest ? 'friend' : 'bestfriend'
+    updateProfile({ mode: newMode })
+
+    try {
+      await patchProfile({ mode: newMode })
+    } catch (error) {
+      console.error('Failed to persist mode change:', error)
+    }
   }
 
   return (

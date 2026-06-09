@@ -63,17 +63,30 @@ def chat(system_prompt: str, messages: list) -> dict:
         if clean.startswith("```"):
             clean = clean.split("\n", 1)[1] if "\n" in clean else clean[3:]
             clean = clean.rsplit("```", 1)[0].strip()
+
+        if not clean or clean == "{}":
+            raise ValueError("Empty or missing JSON payload")
+
         result = json.loads(clean)
+        if not isinstance(result, dict):
+            raise ValueError(f"Unexpected parsed response type: {type(result).__name__}")
+
+        reply = result.get("reply")
+        if not isinstance(reply, str) or not reply.strip():
+            raise ValueError(f"Missing or empty reply in parsed response: {result}")
+
         return {
-            "reply": result.get("reply", raw),
+            "reply": reply.strip(),
             "emotion": result.get("emotion", "neutral"),
             "memory": result.get("memory"),
             "is_rename": result.get("is_rename", False),
             "memory_moment": result.get("memory_moment"),
         }
-    except (json.JSONDecodeError, Exception):
+    except (json.JSONDecodeError, ValueError, Exception) as e:
+        print(f"Error parsing NVIDIA API response: {e}")
+        print(f"Raw model response: {repr(raw)}")
         return {
-            "reply": raw,
+            "reply": "oops, I got a little confused. can you say that again?",
             "emotion": "neutral",
             "memory": None,
             "is_rename": False,

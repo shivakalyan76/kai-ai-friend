@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import KaiAvatar from '../components/avatar/KaiAvatar.jsx'
+import { patchProfile } from '../utils/api.js'
 import { useAppStore } from '../store/appStore.js'
 
 const WELCOME_MESSAGES = {
@@ -21,7 +22,7 @@ export default function Landing() {
   const navigate = useNavigate()
   const { setProfile, addMessage, reset } = useAppStore()
 
-  const handleStart = () => {
+  const handleStart = async () => {
     reset()
 
     const profile = {
@@ -33,6 +34,12 @@ export default function Landing() {
     }
 
     setProfile(profile)
+
+    try {
+      await patchProfile({ mode: selectedMode })
+    } catch (error) {
+      console.error('Failed to persist initial mode:', error)
+    }
 
     const welcome = WELCOME_MESSAGES[selectedMode]
     addMessage({
